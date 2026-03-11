@@ -58,7 +58,7 @@ export default function ViewerCanvas({
 
       <ShadowReceiver />
       <OrbitControls target={[0, 1, 0]} makeDefault />
-      {showPerf ? <Perf position="top-left" /> : null}
+      {showPerf ? <Perf position="top-left" deepAnalyze /> : null}
     </Canvas>
   );
 }

@@ -17,7 +17,10 @@ import { MeshNavigator } from './components/ui/MeshNavigator.jsx';
 const ViewerCanvas = lazy(() => import('./components/scene/ViewerCanvas.jsx'));
 
 export default function App() {
-  const showPerf = import.meta.env.DEV;
+  const perfQuery = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('perf')
+    : null;
+  const showPerf = perfQuery == null ? true : perfQuery !== '0';
   const [avatar, setAvatar] = useState(null);
   const [anim, setAnim] = useState(null);
   const [status, setStatus] = useState('Ready');
