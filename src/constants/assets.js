@@ -1,4 +1,4 @@
-export const DEFAULT_AVATAR_FILE_NAME = 'SNOO (2).vrm';
+export const DEFAULT_AVATAR_FILE_NAME = 'test.vrm';
 export const DEFAULT_ANIMATION_FILE_NAME = 'Step Hip Hop Dance.fbx';
 
 export function withBasePath(path) {
