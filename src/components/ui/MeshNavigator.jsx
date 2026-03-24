@@ -1,6 +1,10 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { countTotalMeshes, countVisibleMeshes } from '../../lib/vrm.js';
 
+function countTotalGroups(nodes) {
+  return nodes.reduce((count, node) => count + 1 + countTotalGroups(node.children || []), 0);
+}
+
 function MeshTreeNode({ node, hiddenMeshes, onToggleMesh, depth = 0 }) {
   const hiddenCount = node.meshUuids.filter((uuid) => hiddenMeshes.has(uuid)).length;
   const visibleCount = node.meshUuids.length - hiddenCount;
@@ -51,14 +55,20 @@ export function MeshNavigator({ meshes, hiddenMeshes, onToggleMesh }) {
 
   const visibleCount = countVisibleMeshes(meshes, hiddenMeshes);
   const totalCount = countTotalMeshes(meshes);
+  const totalGroups = countTotalGroups(meshes);
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between rounded-xl border border-white/6 bg-white/4 px-3 py-1.5 text-[11px] text-slate-200">
-        <span className="font-semibold">Visible</span>
+      <div className="mb-2 flex items-center justify-between gap-2 rounded-xl border border-white/6 bg-white/4 px-3 py-1.5 text-[11px] text-slate-200">
+        <div>
+          <span className="font-semibold">Visible</span>
+          <p className="mt-0.5 text-[9px] uppercase tracking-[0.18em] text-slate-400">
+            {totalGroups} groups
+          </p>
+        </div>
         <span className="rounded-full bg-black/60 px-2 py-0.5 font-bold text-white">{visibleCount}/{totalCount}</span>
       </div>
-      <div className="space-y-1">
+      <div className="panel-scroll max-h-[42vh] space-y-1 overflow-y-auto overscroll-contain pr-1">
         {meshes.map((mesh) => (
           <MeshTreeNode
             key={mesh.uuid}
