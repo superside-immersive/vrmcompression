@@ -8,5 +8,14 @@
   <body>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>
+    <script>
+      const appEntry = document.querySelector('script[type="module"][src]');
+      const entrySrc = appEntry?.getAttribute('src') || '';
+      const isSourceRootEntry = entrySrc.includes('/src/main.jsx') || entrySrc === './src/main.jsx';
+
+      if (window.location.hostname.endsWith('github.io') && isSourceRootEntry) {
+        window.location.replace(new URL('./docs/', window.location.href));
+      }
+    </script>
   </body>
 </html>
